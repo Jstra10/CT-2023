@@ -1,0 +1,92 @@
+alien_0 = {'color': 'green', 'points': 5}
+print(alien_0['color'])
+print(alien_0['points'])
+
+new_points = alien_0['points']
+print("you just earned " + str(new_points) + " points!")
+print(f"you just earned {new_points} points!")
+
+alien_0['x_position'] = 0
+alien_0['y_position'] = 25
+print(alien_0)
+
+print('\ncomplete\n')
+
+Sydnae = {}
+Sydnae['hair color'] = 'blonde'
+Sydnae['height'] = 70
+Sydnae['shoe size'] = 9
+print(Sydnae)
+
+Sydnae['shoe size'] = 8
+print(Sydnae)
+
+print('\ncomplete\n')
+
+alien_0 = {'x_position': 0, 'y_position': 25, 'speed': 'medium',}
+
+# move the alien to the right
+# determine how far to move the alien based on its current speed.
+
+if  alien_0['speed'] == 'slow':
+    x_increment = 1
+elif alien_0['speed'] == 'medium':
+    x_increment = 2
+else:
+    x_increment = 3
+
+alien_0['x_position'] = alien_0['x_position'] + x_increment
+print("New x_position: " + str(alien_0['x_position']))
+print(alien_0)
+alien_0['speed'] = 'fast'
+print(alien_0)
+
+alien_0['x_position'] = alien_0['x_position'] + x_increment
+print("New x_position: " + str(alien_0['x_position']))
+print(alien_0)
+
+print('\ncomplete\n')
+
+favorite_languages = {
+    'jen': 'python',
+    'james': 'sql',
+    'edward': 'c++',
+    'phil': 'python',
+}
+
+print(favorite_languages)
+
+print('\ncomplete\n')
+
+print("James's favorite language is " + favorite_languages['james'].upper() + "!")
+
+print("James's favorite language is " +
+      favorite_languages['james'].upper() +
+      "!!!")
+
+
+print('\ncomplete\n')
+
+sydnae = {'first_name': 'sydnae', 'last_name': 'stratton', 'age': 30.9, 'city': 'belle center'}
+
+print(sydnae['first_name'])
+print(sydnae['last_name'])
+print(sydnae['age'])
+print(sydnae['city'].title())
+
+
+words = {
+    'enumerate': 'returns the index with the value',
+    'string': 'letters or not numbers',
+    'float': 'a decimal',}
+print("\nEnumerate " + words['enumerate'] +"\n")
+print("Float is " + words['float'])
+
+for key, value in words.items():
+    print('\nKey: ' + key)
+    print('Value: ' + value)
+
+    for key, value in sydnae.items():
+        print('\nKey: ' + key)
+        print('Value ' + str(value))
+
