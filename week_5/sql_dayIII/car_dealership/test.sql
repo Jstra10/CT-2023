@@ -114,3 +114,4 @@ JOIN employee ON register.employee_id = employee.employee_id
 JOIN employee_code ON employee.code_id = employee_code.code_id
 JOIN sale_type ON register.sale_type_id = sale_type.sale_type_id
 
+
