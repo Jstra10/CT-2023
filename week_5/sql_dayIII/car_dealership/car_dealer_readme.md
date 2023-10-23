@@ -47,3 +47,4 @@ Primary Key - code_id
 The Inventory Table:
 Stores the tangible products the dealership offers as well as the service items offered.
 Primary Key - inventory_id
+

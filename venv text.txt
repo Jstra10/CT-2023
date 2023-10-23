@@ -1,0 +1,10 @@
+Create environment	python -m venv ./venv
+join environment	cd venv/Scripts
+activate environment	activate
+Shows a list of packages	 dir ./venv
+Have to reinstall everything into the virtual 	
+environment	
+
+
+streamlit run front_page.py
+
