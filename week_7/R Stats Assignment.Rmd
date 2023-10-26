@@ -1,0 +1,255 @@
+---
+title: "Stats in R Assignment"
+author: "Alex Lucchesi"
+date: "2023/05/30"
+output: html_document
+---
+
+## Assignment
+
+For today's assignment, you will be given a blank notebook and a link to the [Call of Duty Dataset](https://www.kaggle.com/datasets/beridzeg45/call-of-duty-reviews) You will need to fill out the notebook and create your own code chunks to run code. Remember that we use this code without any quotation marks to create a code chunk: '`{r} '` \### Your Goal:
+
+To receive credit for today's assignment, you will need to:
+
+-   Import the dataset
+-   Load the dataset into a tibble
+-   Mutate a new column
+-   Create a hypothesis regarding your data and communicate that hypothesis in a scientific method.
+-   Create a notebook that has markdown cells, explaining your code and process/thoughts. **Your markdown should be well thought out and reflect a thorough analysis.**
+-   Clean the data
+-   Explore the data (include visualizations)
+-   Create a statistical test and communicate the results
+
+# I. Loading and Cleaning Data
+
+```{r}
+install.packages('tidyverse')
+```
+
+```{r}
+library(tidyverse,dplyr,stringr)
+
+
+```
+
+```{r}
+cddf <- read.csv("C:/Users/jjs61/OneDrive/Desktop/Class/week_7/Call of Duty Reviews.csv")
+```
+
+```{r}
+column_clean_fun <- function(x){
+  names(x) <- names(x) %>% str_replace_all("\\.", "_") %>% str_to_lower()
+  return(x)
+}
+cddf <- column_clean_fun(cddf)
+ccddf
+
+
+```
+
+```{r}
+cddf  %>% summarise(na_count = sum(is.na(cddf)))
+
+# Using base R
+colSums(is.na(cddf))
+view(cddf)
+#sum(is.na(cddf))
+```
+
+```{r}
+tibsddf <- as_tibble(cddf)
+view(tibsddf)
+
+
+```
+
+```{r}
+
+tibsddf <- tibsddf[complete.cases(tibsddf), ]
+
+tibsddf <- tibsddf %>%
+  filter(platform != "")
+tibsddf
+```
+
+```{r}
+sum(is.na(tibsddf))
+View(tibsddf)
+
+
+```
+
+```{r}
+# Mutate a new column
+
+ndf <- tibsddf %>%
+  mutate(tibsddf, avg_score = (critic_compound_score + user_compound_score)/2)
+view(ndf)
+```
+
+## Hypothesis:
+
+-H0 (Null Hypothesis) There is no significant difference between critic scores and user scores
+
+-H1 (Alternative Hypothesis) - These is a difference between critic scores and user scores
+
+# II. Visualizations
+
+```{r}
+# Histogram
+
+average_user_rating <- mean(ndf$user_compound_score)
+
+
+ggplot(ndf) +
+  geom_histogram(binwidth = 0.09, aes(x= user_compound_score), fill='blue', color='black') +
+  geom_vline(xintercept = average_user_rating, color = 'white', linetype = 'dashed') + 
+  lbas(title = 'Distribution of User Ratings')
+
+```
+
+```{r}
+# Histogram of user ratings
+
+#Find average user rating
+average_critic_rating <- mean(ndf$critic_compound_score)
+
+ggplot(ndf) +
+  geom_histogram(binwidth = 0.1, aes(x = critic_compound_score), fill = "red", color = "black") +
+  geom_vline(xintercept = average_critic_rating, color = 'white', linetype = 'dashed') +
+  labs(title = "Distribution of Critic Ratings", x = "Critic Rating", y = "Frequency")
+```
+
+```{r}
+ggplot(ndf) +
+  geom_histogram(binwidth = 0.1, fill = "blue", color = "black", aes(x = user_compound_score), alpha = 0.6) +
+  geom_histogram(binwidth = 0.1, fill = "red", color = "black", aes(x = critic_compound_score), alpha = 0.6) +
+  labs(title = "Distribution of User and Critic Ratings", x = "Rating", y = "Frequency")
+```
+
+```{r}
+ggplot(ndf) +
+  geom_boxplot(aes(x = release_year, y = user_compound_score), fill = "blue") +
+  labs(title = "Box Plot of User Scores Over Time", x = "Release Year", y = "User Score")
+```
+
+```{r}
+ggplot(ndf) +
+  geom_boxplot(aes(x = release_year, y = critic_compound_score), fill = "blue") +
+  labs(title = "Box Plot of Critic Scores Over Time", x = "Release Year", y = "Critic Score")
+```
+
+```{r}
+# Mutate a new column
+ggplot(ndf) +
+  geom_point(aes(x = user_compound_score, y = critic_compound_score)) +
+  labs(title = "Comparison of User and Critic Scores", x = "User Score", y = "Critic Score")
+```
+
+# III. Statistical Testing
+
+If the p-value is less than your chosen significance level (e.g., p \< 0.05), you can reject the null hypothesis. - Rejecting the null hypothesis would mean that there is a significant difference in means between user scores and critic scores, even though the correlation is weak. - Keep in mind that a weak correlation does not preclude the possibility of a significant difference in means.
+
+A t-test is appropriate when you are comparing the means of two groups to determine if there is a statistically significant difference between them.
+
+```{r}
+# perform a t-test
+
+t.test(ndf$user_compound_score, ndf$critic_compound_score)
+```
+
+### Interpretation:
+
+The t-test suggests that there is some evidence against the null hypotheses. (p-value = 0.05508). The alternative suggests that the true difference in means is not equal to 0 indicating there maybe a significant difference in user compound score and critic compound score. However, the evidence is not extremely strong, as the p-value is slightly above the significance level of 0.05.
+
+The confidence interval indicates that the true difference in means could lie between approximately -0.1132 and 0.0012, which includes 0. This suggests some uncertainty about the exact difference in means.
+
+In summary, the t-test provides evidence of a potential difference in means, but the result is not highly significant, and there is some degree of uncertainty about the exact difference in means. Therefore, we fail to reject the null hypothesis.
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
