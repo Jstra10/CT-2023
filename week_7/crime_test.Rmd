@@ -1,0 +1,96 @@
+```{r}
+install.packages('tidyverse')
+```
+
+```{r}
+library(tidyverse)
+?tidyr
+
+```
+
+```{r}
+
+df1 <- read.csv("C:/Users/jjs61/OneDrive/Desktop/Class/week_7/Crime_query_6.csv")
+```
+
+```{r}
+# Create a sequence of numbers from 1 to the number of rows in the dataset
+
+```
+
+```{r}
+# move the unique id column to the first one
+
+```
+
+```{r}
+my_fun <- function(x){
+  names(x) <- names(x) %>% str_replace_all("\\.", "_") %>% str_to_lower()
+  return(x)
+}
+df1 <- my_fun(df1)
+df1
+```
+
+```{r}
+df1  %>% summarise(na_count = sum(is.na(df1)))
+
+# Using base R
+colSums(is.na(df1))
+sum(is.na(df1))
+```
+
+```{r}
+df1%>%summarise(data_type = class(df1))
+str(df1)
+
+
+df2 <- df1[, -which(names(df1) == "incident_hour")]
+df2
+
+
+```
+
+```{r}
+# Make some data
+# X increases (noisily)
+# Z increases slowly
+# Y is constructed so it is inversely related to xvar and positively related to xvar*zvar
+set.seed(42)
+xvar <- 1:20 + rnorm(20,sd=3)
+zvar <- 1:20/4 + rnorm(20,sd=2)
+yvar <- -2*xvar + xvar*zvar/5 + 3 + rnorm(20,sd=4)
+
+# Make a data frame with the variables
+dat <- data.frame(x=xvar, y=yvar, z=zvar)
+?rnorm
+# Show first few rows
+head(dat)
+```
+
+```{r}
+fit <- lm(y ~ x, data=df2)  # Using the columns x and y from the data frame
+fit <- lm(df2$y ~ df2$x)     # Using the vectors dat$x and dat$y
+fit
+```
+
+```{r}
+
+```
+
+```{r}
+df3 <- read.csv("C:/Users/jjs61/OneDrive/Desktop/Class/week_7/Titanic.csv")
+df3
+```
+
+```{r}
+model <- glm(Pclass ~ Fare, data=Titanic)
+```
+
+```{r}
+
+```
+
+```{r}
+
+```

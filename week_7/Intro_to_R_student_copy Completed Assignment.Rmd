@@ -568,7 +568,7 @@ v1 * v2
 #### Division
 
 ```{r}
-
+6%%4
 ```
 
 #### Floor Division
