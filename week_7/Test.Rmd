@@ -1,0 +1,225 @@
+```{r}
+install.packages('tidyverse')
+install.packages("RPostgreSQL")
+library('tidyverse')
+library('RPostgreSQL')
+
+```
+
+```{r}
+install.packages("RPostgreSQL")
+```
+
+```{r}
+library(RPostgreSQL)
+```
+
+```{r}
+dsn_database <- "R"
+dsn_hostname <- "localhost"      
+dsn_port     <- "5432"       
+dsn_uid      <- "postgres"
+dsn_pwd      <- "sydney187"
+
+```
+
+```{r}
+drv <- dbDriver("PostgreSQL")
+conn <- dbConnect(drv, 
+                  dbname = dsn_database,
+                  host = dsn_hostname, 
+                  port = dsn_port,
+                  user = dsn_uid, 
+                  password = dsn_pwd)
+```
+
+```{r}
+?`PostgreSQLConnection-method`
+```
+
+```{r}
+library(DBI)
+
+# Define the database connection string
+connection_string <- "Driver={PostgreSQL ODBC Driver(UNICODE)};Server=localhost;Port=5432;Database=R;Uid=postgres;Pwd=sydney187;"
+
+# Establish the database connection
+con <- dbConnect(odbc::odbc(), .connection_string = connection_string, timeout = 10)
+
+```
+
+```{r}
+data_to_insert <- data.frame(
+  column1 = c(1, 2, 3),
+  column2 = c("A", "B", "C")
+)
+```
+
+```{r}
+table_name <- "test_table"
+# Insert Table 
+dbWriteTable(con, table_name, data_to_insert, overwrite = TRUE)
+
+```
+
+```{r}
+dbDisconnect(con)
+```
+
+```{r}
+drop_table_sql <- paste("DROP TABLE IF EXISTS", 'test_table')
+# Execute the SQL command to drop the table
+dbExecute(con, drop_table_sql)
+
+```
+
+```{r}
+
+```
+
+```{r}
+install.packages('tidyverse')
+```
+
+```{r}
+library('tidyverse')
+```
+
+```{r}
+mdf <- read_csv("C:/Users/jjs61/OneDrive/Desktop/Class/week_7/Meteorite_Landings.csv")
+```
+
+```{r}
+mdf <- as_tibble(mdf)
+str(mdf)
+```
+
+```{r}
+data_to_insert <- mdf
+table_name <- "test_table"
+# Insert Table 
+dbWriteTable(con, table_name, data_to_insert, overwrite = TRUE)
+```
+
+```{r}
+drop_table_sql <- paste("DROP TABLE IF EXISTS", 'test_table')
+# Execute the SQL command to drop the table
+dbExecute(con, drop_table_sql)
+```
+
+Constant columns are when we have a singular value present. = NO value to the analysis
+
+-   What are the value_counts in the constant columns? Do we truly only have a single value? or do we have maybe one or two items in the other category
+
+```{r}
+mdf
+```
+
+```{r}
+mdf %>% count(nametype)
+```
+
+We are going to drop the column name type as the amount of data present does not signify enough of a difference between values in a constant column to dictate keeping it
+
+```{r}
+mdf <- select(mdf,-c(GeoLocation,nametype))
+mdf
+```
+
+```{r}
+names(mdf) %>% str_replace_all(" ", "_")
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+data_to_insert <- mdf
+table_name <- "test_table"
+# Insert Table 
+dbWriteTable(con, table_name, data_to_insert, overwrite = TRUE)
+
+```
+
+```{r}
+drop_table_sql <- paste("DROP TABLE IF EXISTS", 'test_table')
+# Execute the SQL command to drop the table
+dbExecute(con, drop_table_sql)
+```

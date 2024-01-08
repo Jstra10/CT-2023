@@ -1,0 +1,193 @@
+### Step 2---
+
+title: 'R: The Final Frontier' author: "Alex Lucchesi" date: "2023-10-26" output: html_document ---
+
+# R: The Final Frontier: Bonfire 129's Final Lecture :sad:
+
+## Project 1: HR Analytics
+
+Our premise today will be to intake a dataset from Kaggle, and analyze the data that is present, clean, transform, model/stat test, explore (vis).
+
+### Step 1: Imports
+
+```{r}
+# Tidyverse is all about data analytics. We will use it a lot for our processing of the datasets.
+library(tidyverse)
+```
+
+```{r}
+df <- read_csv("C:/Users/Alex Lucchesi/Downloads/HR_Analytics.csv")
+df
+```
+
+#### What Needs to be done to this data in order for it to be considered tidy data?
+
+-   Column Headers (R Style Guidelines)
+
+-   Null Values
+
+-   Column Data Types
+
+-   Change dashes to be underscores in the BusinessTravel column
+
+-   Change attrition column to be a Boolean type
+
+$Ho:$ Salary and Education have NO statstical significance
+
+$Ha:$ Salary and Education have a statistical significance to one another
+
+## 
+
+### Step 2: Tidy our Data:
+
+```{r}
+# Replace column names
+colnames(df) <- gsub("([a-z0-9])([A-Z])", "\\1_\\2", colnames(df))
+```
+
+```{r}
+names(df) <- names(df) %>% str_to_lower()
+names(df)
+```
+
+-   Check Null Values:
+
+    ```{r}
+    colSums(is.na(df))
+    ```
+
+**If I had a column with null values that pertained to my analysis, I need to explore the data and then come up with a solution. If I tried to drop before checking how that would affect my data, we may end up missing data that had to do with a relationship or was important to the overall understanding of the target variable.**
+
+**If I had a column with null values that pertained to my analysis, I need to explore the data and then come up with a solution. If I tried to fill null values, we can include additional noise and lose sight of the overall relationship between the column and the target variable.**
+
+-   Check column data types:
+
+    ```{r}
+    str(df)
+    ```
+
+-   Change the columns types to be Boolean:
+
+    ```{r}
+    df['over18'] <- df['over18'] == 'Y'
+    df['over_time'] <- df['over_time'] == 'Yes'
+    df['attrition'] <- df['attrition'] == 'Yes'
+    ```
+
+```{r}
+df
+```
+
+-   Change the column values for the business_travel column:
+
+    ```{r}
+    df['business_travel'] <- df['business_travel'] %>% str_replace_all('-', '_')
+    ```
+
+```{r}
+df
+```
+
+### Step 3: Explore
+
+-   View the relationship between education level and their monthly_income
+
+-   View the distribution of the target column, or our dependant variable
+
+-   View the distribution of the independent variable.
+
+-   View the relationship between the monthly_income and all other variables as well (cor)
+
+```{r}
+ggplot(data=df, aes(x=performance_rating, y=monthly_income)) + 
+  geom_point()
+```
+
+```{r}
+cor(df$performance_rating, df$monthly_income) * 100
+```
+
+```{r}
+?filter
+df1 <- filter(df, education != 5)
+```
+
+```{r}
+ggplot(data=df1, aes(x=education, y=monthly_income)) + 
+  geom_point()
+```
+
+```{r}
+cor(df1$education, df1$monthly_income) * 100
+```
+
+### Step 4: Analyze
+
+```{r}
+model <- lm(df$monthly_income ~ df$education)
+model
+```
+
+```{r}
+summary(model)
+```
+
+With the results of the correlation analysis paired with the results of the regression analysis, we can safely determine that the education level and amount an employee earned a month had no direct statistical significance or correlation to one another. Therefore, would fail to reject the null hypothesis
+
+```{r}
+write.csv(df, 'hr_analysis.csv')
+```
+
+## Part 2: Meteorite Landings Dashboard ETL
+
+Our overall goal here should be to clean the data and transform any and all necessary columns to be able to create the best dashboard we can out of this data that is available to us.
+
+### Step 1: Imports
+
+```{r}
+meteor_df <- read_csv("C:/Users/Alex Lucchesi/Downloads/Meteorite_Landings.csv/Meteorite_Landings.csv")
+meteor_df
+```
+
+**Constant columns are when we only have a singular value present within a column. This does not add any additional value to your analysis.**
+
+-   What are the value_counts in the constant columns? Do we truly only have a single value? Or do we have maybe one or two items in the other category?
+
+-   Drop the GeoLocation
+
+-   Checked the structure of the dataframe object
+
+```{r}
+str(meteor_df)
+```
+
+```{r}
+meteor_df %>% count(nametype)
+```
+
+```{r}
+75/45641
+```
+
+We are going to drop this column. The amount of data present within the column does not signify enough of a difference between values in a constant column to dictate keeping it.
+
+```{r}
+# Drop the column
+df2 <- select(meteor_df, -c(GeoLocation, nametype))
+```
+
+```{r}
+meteor_df[,-c(3,10)]
+```
+
+```{r}
+names(meteor_df) %>% str_replace_all(' ', '_')
+```
+
+```{r}
+colSums(is.na(df2))
+```
+
+```{r}
+write_csv(df2, 'meteor_sightings.csv')
+```

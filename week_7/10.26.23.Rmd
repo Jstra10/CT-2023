@@ -1,0 +1,195 @@
+---
+---
+---
+
+# R: The Final Day of Coding Temple Classes.
+
+## Project 1: HR Analytics
+
+### Our premise today will be to intake a dataset from Kaggle, analyse the data, clean, transform, model/stat test, explore(vis).
+
+```{r}
+install.packages('tidyverse')
+library(tidyverse)
+```
+
+```{r}
+ndf <- read.csv("C:/Users/jjs61/OneDrive/Desktop/Class/week_7/HR_Analytics.csv")
+
+ndf <- as_tibble(ndf)
+
+ndf
+
+
+```
+
+# Hypothesis
+
+Ho: Salary and Education don't have a statistical significance to one another Ha: Salary and Education have a statistical significance to one another
+
+Step 2: Tidy Data
+
+```{r}
+names(ndf) <- names(ndf) %>% str_to_lower()
+names(ndf)
+
+```
+
+```{r}
+ndf  %>% summarise(na_count = sum(is.na(ndf)))
+colSums(is.na(ndf))
+```
+
+If you have a column with null values that pertained to my analysis, you need to explore the data and then come up with a solution. I you try to drop before checking, we may end up missing data that had to do with a relationship
+
+```{r}
+View(ndf)
+```
+
+```{r}
+install.packages('RPostgreSQL')
+```
+
+```{r}
+dsn_database = "R_data" 
+
+dsn_hostname = "localhost"  
+dsn_port = "5432"              
+dsn_uid = "postgres"        
+dsn_pwd = "sydney187"       
+```
+
+```{r}
+tryCatch({
+    drv <- dbDriver("PostgreSQL")
+    print("Connecting to Database…")
+    connec <- dbConnect(drv, 
+                 dbname = dsn_database,
+                 host = dsn_hostname, 
+                 port = dsn_port,
+                 user = dsn_uid, 
+                 password = dsn_pwd)
+    print("Database Connected!")
+    },
+    error=function(cond) {
+            print("Unable to connect to Database.")
+    })
+```
+
+Change columns to be boolean
+
+```{r}
+ndf['over18'] <- ndf['over18'] == 'Y'
+ndf['overtime'] <- ndf['overtime'] == 'Yes'
+ndf['attrition'] <- ndf['attrition'] == 'Yes'
+```
+
+```{r}
+ndf['businesstravel'] <- ndf['businesstravel'] %>% str_replace_all('_', '_')
+
+```
+
+```{r}
+ggplot(data=ndf, aes(x=education, y =monthlyincome)) + 
+  geom_point()
+```
+
+```{r}
+cor(ndf$education, ndf$monthlyincome)*100
+```
+
+```{r}
+cor(ndf[sapply(ndf,is.numeric)])
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```

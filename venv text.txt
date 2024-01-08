@@ -8,3 +8,6 @@ environment
 
 streamlit run front_page.py
 
+streamlit run "Front Page.py"
+
+
